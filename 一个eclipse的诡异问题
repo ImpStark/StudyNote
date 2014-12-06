@@ -1,0 +1,20 @@
+    从周五下午检查实验，晚上打球一直到周六上午，一直没有写过代码，但是在周六下午打开eclipse之后突然出现了
+各种报错，几乎每一关工程都出了问题。
+    症状：
+    concole的输出信息：
+                      [2014-12-06 15:07:53 - WebViewTest] Unable to resolve target 'android-20'
+                      [2014-12-06 15:07:53 - HTTPTest] Unable to resolve target 'android-19'
+                      [2014-12-06 15:07:53 - JunitTest] Unable to resolve target 'android-19'
+                      [2014-12-06 15:07:53 - Sms] Unable to resolve target 'android-19'
+                      [2014-12-06 15:07:53 - appcompat_v7] Unable to resolve target 'android-2
+    打开自己的任意一个文件，从第一行的package代码就开始各种报错：
+                      Multiple markers at this line  - The type java.lang.Throwable cannot be resolved
+                      下面都是各种报错
+    回忆自己之前的操作，可能的是：下载了Android5.0的sdk，导入了一个Android的project，其他的都没做。不知道是哪一个原因
+    的问题，，现将解决方法记录如下：
+          在package explorer中右键自己的project名，右键Property，左边一列中选android，
+          project build target中显示已经选中了android2.3.1，
+          重新选择一个别的，比如android4.0.3，确认后再重新修改回android2.3.1，
+          打开菜单栏的project，clean，选中自己的project名字，确定，清理会删除gen文件夹，
+          然后自动重新build project（右下角有提示），完毕重新生成了gen文件夹，问题解决。
+    
