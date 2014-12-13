@@ -1,0 +1,5 @@
+    fragment的使用在于建立灵活动态的UI，每一个fragment必须包括一个继承fragment的类，这个类定义了fragment
+  这种准类的几个行为：加载UI，处理点击事件。
+    同时由于它并不是一个类，所以消耗资源比较小，进行fragment间的切换时，通过fragmentmanger进行替换，删除
+  也可以通过。。
+    未完待补。。。
