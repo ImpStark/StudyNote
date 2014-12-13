@@ -1,5 +1,50 @@
     fragment的使用在于建立灵活动态的UI，每一个fragment必须包括一个继承fragment的类，这个类定义了fragment
   这种准类的几个行为：加载UI，处理点击事件。
+    Android开发者官网上定义的步骤包括：
+        1，创建一个继承fragment类的子类：public static class ExampleFragment extends Fragment{}
+        2，重写其中的方法：必须重写： public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)方法，其余的onCreate
+,onPause,onResume,onDestroy方法选择重写
+       3，将添加xml文件：需要特殊声明的是，必须加上name属性：
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <fragment android:name="com.example.news.ArticleListFragment"
+            android:id="@+id/list"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    <fragment android:name="com.example.news.ArticleReaderFragment"
+            android:id="@+id/viewer"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+</LinearLayout>
+        同时，系统需要一个ID用来辨认，可以设置 android:id  或者 android：tag属性
+        4，添加，删除，替换fragment：
+           第一步：FragmentManager fragmentManager = getFragmentManager()
+                   FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            第二步：操作：ExampleFragment fragment = new ExampleFragment();
+                    fragmentTransaction.add(R.id.fragment_container, fragment);
+            第三步：提交（有点类似于sqlitedatebasehelper）：
+                    fragmentTransaction.commit();
+        5，在进行替换或者删除移动操作时，在commit之前调用 addToBackStack()方法可将被替换/删除/移动
+            的fragment入栈，进入  stop  状态，，如果没有调用，那么被操作的fragment将会 destory。
+            调用此方法，可实现类似于activity的向后导航的效果，但是需要在activity中控制。
+            需要注意的是：如果使用v4的support库，那么直接在commit之前调用addToBackStack()就好了，
+            反之，需要在 activity的onBackPressed里面加一句：
+                getFragmentManager().popBackStack();
+        6，与activity通信，创建回调函数事件。即在fragment中声明一个接口，在activity中实现这个接口。
+            可以实现不同fragment之间通信，通过activity。步骤：定义接口，在onAttach函数中检查：
+            public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            try {
+                mListener = (OnArticleSelectedListener) activity;
+            } catch (ClassCastException e) {
+                throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
+        }
+    }
     同时由于它并不是一个类，所以消耗资源比较小，进行fragment间的切换时，通过fragmentmanger进行替换，删除
   也可以通过。。
     未完待补。。。
